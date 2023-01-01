@@ -1,0 +1,2 @@
+1: create grid with proper specs 
+2: display grid on screen 
