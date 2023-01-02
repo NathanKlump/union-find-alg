@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function App() {
   const [arraySize, setArraySize] = useState(1);
   const [grid, setGrid] = useState([]);
+  const [refObj, setRefObj] = useState({});
   const canvasRef = useRef(null);
 
 
@@ -10,6 +11,9 @@ function App() {
 
 const displayGrid = () => {
   for(let i; i < grid.length; i++){
+    for(let j; j < grid[i].length; j++){
+      
+    }
   }
 }
 
@@ -30,7 +34,15 @@ const createGrid = () => {
 const handleClick = () => {
   createGrid();
   displayGrid();
+    refObj.fillStyle = 'white';
+    refObj.fillRect(15, 15, 30, 15);
 }
+
+useEffect(() => {
+  setRefObj(canvasRef.current.getContext('2d'));
+  console.log(grid.length)
+}, [grid]);
+
   return (
     <div className="justify-center mx-auto">
       <div className="flex items-center justify-between mx-auto">
