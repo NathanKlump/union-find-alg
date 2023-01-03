@@ -6,41 +6,46 @@ function App() {
   const [refObj, setRefObj] = useState({});
   const canvasRef = useRef(null);
 
-
-
-
-const displayGrid = () => {
-  for(let i; i < grid.length; i++){
-    for(let j; j < grid[i].length; j++){
-      
-    }
+  const clearCanvas = () => {
+    refObj.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
   }
-}
 
-const createGrid = () => {
-  const array = [];
-  for (let i = 0; i < arraySize; i++) {
-    array[i] = [];
-    for (let j = 0; j < arraySize; j++) {
-      array[i][j] = 
-        {
-          active: "false"
-        };
-    }
+  const renderGrid = () => {
+      for(let row = 0; row < grid.length; row++){
+        refObj.moveTo((row * 30),0)
+        refObj.lineTo((row * 30), 500);
+        refObj.stroke();
+        for(let column = 0; column < grid[row].length; column++){
+        refObj.moveTo(0,(column*15))
+        refObj.lineTo(500,(column*15));
+        refObj.stroke();
+          (grid[row][column].active === true) ? refObj.fillStyle = 'blue' : refObj.fillStyle = 'white';
+          refObj.fillRect((row * 30), (column * 15), 30, 15);
+        }
+      }
   }
-  setGrid(array);
-}
 
-const handleClick = () => {
-  createGrid();
-  displayGrid();
-    refObj.fillStyle = 'white';
-    refObj.fillRect(15, 15, 30, 15);
-}
+  const createGrid = () => {
+    const array = [];
+    for (let i = 0; i < arraySize; i++) {
+      array[i] = [];
+      for (let j = 0; j < arraySize; j++) {
+        array[i][j] = 
+          {
+            active: "false"
+          };
+      }
+    }
+    setGrid(array);
+  }
+
+  const handleClick = () => {
+    createGrid();
+    renderGrid();
+  }
 
 useEffect(() => {
   setRefObj(canvasRef.current.getContext('2d'));
-  console.log(grid.length)
 }, [grid]);
 
   return (
@@ -57,9 +62,10 @@ useEffect(() => {
         onChange={(event) => setArraySize(event.target.value)}
         />
       <button onClick={handleClick} className="pl-6">Enter</button>
+      <button onClick={clearCanvas}> Clear </button>
       {/* GRID DISPLAY */}
       <canvas 
-        className="w-[500px] h-[500px] bg-black" 
+        className="w-[610px] h-[610px] bg-black" 
         ref={canvasRef}>
 
       </canvas>
